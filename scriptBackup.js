@@ -5,16 +5,40 @@ let row = 16;
 let column = 16;
 
 const gridContainer = document.getElementById('grid-container');
-const eraserButton = document.getElementById('eraser');
+const eraserButton = document.getElementById('eraser'); /*Make sure to add eraser func */
 const clearButton = document.getElementById('clear');
+
+const selectedColor = document.getElementById('selected-color');
+
+let colorChosen = selectedColor.value;
+
+selectedColor.addEventListener('input', function(event) {
+    colorChosen = event.target.value;
+})
 
 
 clearButton.addEventListener('click', (event) => {
     location.reload(); 
 })
 
+
 gridContainer.style.height = `${gridSide}px`;
 gridContainer.style.width = `${gridSide}px`;
+
+let isErasing = false;
+
+
+
+eraserButton.addEventListener('click', () => {
+    isErasing = !isErasing;
+
+    if (isErasing) {
+        eraserButton.classList.add('active');
+    }
+    else {
+        eraserButton.classList.remove('active');
+    }
+});
 
 let isDrawing = false;
 
@@ -38,14 +62,23 @@ function fillGrid() {
         cellBox.style.width = `${(gridSide / row) - 2}px`
 
         cellBox.addEventListener("mousedown", (event) => {
-            event.target.style.backgroundColor = "black";
+            if (isErasing) {
+                event.target.style.backgroundColor = "#ffffff"
+            }
+            else {
+            event.target.style.backgroundColor = `${colorChosen}`;
+            }
         });
 
         cellBox.addEventListener("mouseover", (event) => {
             if (isDrawing) {
-                event.target.style.backgroundColor = "black";
-            }
-        });
+                if (isErasing) {
+                    event.target.style.backgroundColor = "#ffffff";
+                }
+                else {
+                    event.target.style.backgroundColor = `${colorChosen}`;
+                }
+        }});
 
         gridContainer.appendChild(cellBox);
     }

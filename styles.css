@@ -7,6 +7,7 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #0F4C81;
+    height: 150vh;
 }
 
 .main-wrapper {
@@ -39,11 +40,14 @@ body {
   margin-bottom: 100px auto;
   flex-wrap: wrap;
   background-color: white;
+  /*overflow: hidden; /* Prevent any overflow */
 }
 
 .cell {
     display: flex;
     border: 1px solid whitesmoke;
+    box-sizing: border-box;
+    flex: 0 0 auto; /* Prevent flex-grow/shrink */
 }
 
 
@@ -70,4 +74,48 @@ i {
 
 #eraser.active {
     background-color: rgb(140, 187, 145);
+}
+
+.slider-container {
+    margin-top: 10px;
+    border-radius: 6px;
+    background-color: #939597;
+    padding: 15px;
+}
+
+.slider-container > #range-slider {
+    appearance: none;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    width: 100%; /* Makes the slider responsive */
+    height: 10px; /* Sets height for the track */
+    background: linear-gradient(to right, #0a0c0a, #967ea4); /* Adds a gradient track */
+    border-radius: 5px; /* Rounds the track edges */
+}
+
+.slider-container > #square-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Removes default styling */
+    appearance: none;
+    border-radius: 0; /* Ensures the thumb is square */
+}
+
+.slider-container > #range-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background-color: #58496f;
+    border: 2px solid #fff;
+}
+
+
+#visible-value {
+    display: flex;
+    margin-top: 8px;
+    height: 4vh;
+    flex-direction: column;
+    font-size: 18px;
+    text-align: center;
+    font-family: 'Roboto';
+    color:#ffffff;
+    justify-content: center;
 }

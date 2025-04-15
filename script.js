@@ -5,8 +5,10 @@ let row = 16;
 let column = 16;
 
 const gridContainer = document.getElementById('grid-container');
-const eraserButton = document.getElementById('eraser'); /*Make sure to add eraser func */
+const eraserButton = document.getElementById('eraser');
 const clearButton = document.getElementById('clear');
+
+
 
 const selectedColor = document.getElementById('selected-color');
 
@@ -58,8 +60,8 @@ function fillGrid() {
     for (let i = 0; i < (row * column); i++) {
         const cellBox = document.createElement('div');
         cellBox.classList.add('cell');
-        cellBox.style.height = `${(gridSide / column) - 2}px`
-        cellBox.style.width = `${(gridSide / row) - 2}px`
+        cellBox.style.width = `calc(100% / ${row})`;
+        cellBox.style.height = `calc(100% / ${column})`;
 
         cellBox.addEventListener("mousedown", (event) => {
             if (isErasing) {
@@ -87,4 +89,59 @@ function fillGrid() {
 
 
 fillGrid();
+
+const rangeSlider = document.getElementById('range-slider');
+
+let sliderValue = rangeSlider.value; /*extracts slider value into variable*/ 
+
+function clearGrid() {
+    // Remove all existing cell boxes from the grid
+    while (gridContainer.firstChild) {
+        gridContainer.removeChild(gridContainer.firstChild);
+    }
+}
+
+const visibleValue = document.getElementById('visible-value');
+
+function updateVisibleValue(value) {
+    visibleValue.textContent = `${value} x ${value}`;
+}
+
+
+
+
+rangeSlider.addEventListener('input', () => {
+    updateVisibleValue(rangeSlider.value);
+    clearGrid();
+    sliderValue = rangeSlider.value;
+    row = sliderValue;
+    column = sliderValue;
+    for (let i = 0; i < (row * column); i++) {
+        const cellBox = document.createElement('div');
+        cellBox.classList.add('cell');
+        cellBox.style.width = `calc(100% / ${row})`;
+        cellBox.style.height = `calc(100% / ${column})`;
+
+        cellBox.addEventListener("mousedown", (event) => {
+            if (isErasing) {
+                event.target.style.backgroundColor = "#ffffff"
+            }
+            else {
+            event.target.style.backgroundColor = `${colorChosen}`;
+            }
+        });
+
+        cellBox.addEventListener("mouseover", (event) => {
+            if (isDrawing) {
+                if (isErasing) {
+                    event.target.style.backgroundColor = "#ffffff";
+                }
+                else {
+                    event.target.style.backgroundColor = `${colorChosen}`;
+                }
+        }});
+
+        gridContainer.appendChild(cellBox);
+    
+}});
 
